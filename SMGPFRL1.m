@@ -34,7 +34,7 @@ final=false;
 % figure
 B_iter{1} = B;
 iter=1;
- %compare_meanfunction(bsbasis,B)
+ compare_meanfunction(T,phi,B);
 %  plot_B(B,T,Y,A,bsbasis)
 % plot_B(B,T,Y,A,bsbasis)
 d=repmat(0.5,1,kmax);
@@ -46,8 +46,9 @@ while final==false
     % split
     if kk+1<=kmax
         [~,cluster]=max(A,[],2);
-%          subplot(1,3,kk)
-%          plot_curve(T,Y,cluster);
+         figure;
+         plot_curve(T,Y,cluster);
+%          title(['components number=',num2str(kk)])
                 zmat = zeros(Curve_num,kk);
           for ii=1:Curve_num
              zmat(ii,cluster(ii))=1;
@@ -81,7 +82,7 @@ while final==false
           %  [loglik_old loglik_new]
             bic_change=2*(loglik_old-loglik_new)+4*kk*log(Curve_num*Nm);
 %             plot_B(B1,T,Y,A1,bsbasis)
- %compare_meanfunction(bsbasis,B1)
+ compare_meanfunction(T,phi,B1)
 %  plot_B(B,T,Y,A,bsbasis)
 %              bic_change
             if bic_change<0
@@ -110,7 +111,8 @@ while final==false
 % T,Y,Theta,PI,B,phi,zmat,beta)
         A=posterior_update(D,Y,Theta,PI,B,phi);
           [~,cluster]=max(A,[],2);
-         subplot(1,3,kk)
+         figure;
          plot_curve(T,Y,cluster);
+%          title(['components number=',num2str(kk)])
     end
 end

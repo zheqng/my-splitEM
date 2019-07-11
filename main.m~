@@ -60,5 +60,4 @@ RMSE = sqrt(rmse/600/110)
 t2 = clock;
 time = etime(t2,t1)
 
-[~,cluster]=max(A,[],2);
-cluster_true = [repmat(1,1,108) repmat(2,1,103) repmat(3,1,89)]';
+[~,cluster]
