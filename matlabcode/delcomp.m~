@@ -1,0 +1,13 @@
+function  [Theta,PI]=delcomp(Theta,PI,A)
+
+[~,cluster]=max(A,[],2);
+kk=size(A,2);
+index=1:kk;
+empty_index=find(index~=unique(cluster)')
+% ind=find(PI<threhold);
+PI(empty_index)=[];
+% B(:,ind)=[];
+PI=PI/sum(PI);
+Theta(empty_index,:)=[];
+
+for
