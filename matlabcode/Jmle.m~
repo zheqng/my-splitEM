@@ -1,4 +1,4 @@
-function [LL,grad]=Jmle(theta,PI,A,D,Y)
+function [LL,grad]=Jmle(theta,A,D,Y)
 %-2log
 m=numel(A);
 
@@ -15,7 +15,7 @@ if sum(A)>10^(-100)
 else 
     for i=1:m
         [LL1,grad1]=MLE(theta,D{i},Y(i,:)); 
-        LL=LL+LL1-2*log(PI);
+        LL=LL+LL1;
         grad=grad+grad1;
     end
 end

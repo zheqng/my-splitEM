@@ -23,22 +23,10 @@ function [ratio,PI,Theta] =calc_Accept_ratio(u,Theta,PI,d,b,loglik_old,D,Y,k,kk)
          PI=[ PI,[pi1,pi2]];
          Theta=[ Theta;sqrt([v1,sigma1,w1;v2,sigma2,w2])];
         
-        %theta1,v;theta2,w;theta3,sigma
-%         V = TTheta{k}(:,1);
-%         W = TTheta{k}(:,2);
-%         Sigma = TTheta{k}(:,3);
-%         sort_index = 2*(Curve_num-1).*V.*exp(-W./2*eps_x^2)...
-%             +Curve_num*(V + Sigma);
-%         [~,I]=sort(sort_index);
-%         TTheta{k} = TTheta{k}(I,:);
-%         TPI{k} = TPI{k}(I);
-        %            calculate logl, just calculate, not EM iteration
-%         [A,LogLik]=posterior_calculate(T,Y, Theta,PI);
+
       A=posterior_update(D,Y,Theta,PI);
       loglik_new=LogLik(D,Y, Theta,PI,A);
         % % % % % % % % % % % % % % % %             fixed moves
-        %[TTheta{k},TPI{k},TA{k},TLL{k}]=EM(T,Y,TTheta{k},TA{k});
-        %             radio=1;
                     prop_ratio = d(kk+1)/b(kk);
 %    _________________pi_______________________________%
             add_logratio = log(kk) - log(6) - log(u(1)*(1-u(1))) + log(pi_star);
@@ -62,16 +50,6 @@ function [ratio,PI,Theta] =calc_Accept_ratio(u,Theta,PI,d,b,loglik_old,D,Y,k,kk)
 % [loglik_new loglik_old add_logratio]
             ratio = exp(loglik_new-loglik_old + add_logratio);
             ratio = ratio*prop_ratio;
-%             ratio = -ratio
-%             J_split_iter(iter) = ratio;
-% accept_parameter.ratio = ratio;
-% accept_parameter.Theta = Theta;
-% accept_parameter.PI = PI;
-% theta_tmp = Theta';
-% theta_tmp_1 = theta_tmp(:);
-% theta_tmp_2 = theta_tmp_1';
-% accept_parameter = [ratio,PI,theta_tmp_2];
-% ratio = accept_parameter(1);
-% PI = accept_parameter(2:kk+1);
-% theta_tmp = accept_parameter(kk+2:4*kk+1);
-% Theta = reshape(theta_tmp,3,kk)';
+            if ratio>1
+                ratio=1;
+            end

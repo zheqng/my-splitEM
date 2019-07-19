@@ -35,7 +35,7 @@ t1 = clock;
 % bsbasis = create_bspline_basis([L-eps,H+eps], 22,3);
 % bsbasis = createT1(30,3,0,9);
 
-[BIC,Theta,PI,A,Jsp]=SMGPFRL1(T,Y);
+[BIC,Theta,PI,A,component_num]=SMGPFRL1(T,Y);
 
  
 % 
@@ -43,4 +43,5 @@ t2 = clock;
 time = etime(t2,t1)
 
 [~,cluster]=max(A,[],2);
+Theta.^2
 % cluster_true = [repmat(1,1,108) repmat(2,1,103) repmat(3,1,89)]';

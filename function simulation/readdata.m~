@@ -3,8 +3,8 @@ clc;
 delete data.mat
 aaa = readtable('../demo/traindata.dat');
 data = table2array(aaa(:,1:50));
-T=data((1:4)*2-1,:);
-Y = data((1:4)*2,:);
+T=data((1:76)*2-1,:);
+Y = data((1:)*2,:);
 
 save data.mat
 clear all;

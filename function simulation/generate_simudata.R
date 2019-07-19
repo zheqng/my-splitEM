@@ -10,6 +10,9 @@ source('basicfunc.r')
 source('plot.mix.r')
 
 
+
+
+
 K=7
 theta = vector("list",K)
 # for(k in 1:100){
@@ -23,12 +26,12 @@ for(k in 1:K){
 }
 # label = rmultinom(n=1,size=M,prob=PI)
 z=NULL
-for(k in 1:K)z =c(z, rep(k,2))
+for(k in 1:K)z =c(z, rep(k,4))
 
-M = K*2
+M = K*4
 
 dat =vector( "list", M)
-x=seq(from=-4,to=4,length.out = 100)
+x=seq(from=-4,to=4,length.out = 50)
 for(i in 1:M)
   dat[[i]]$x = x;
 dat$M=M
@@ -59,7 +62,7 @@ plot.mixgaussian(dat,step=2,K=K,make.pdf=TRUE)
 # write to file
 
 stepsize = length(x)
-tsize = floor(stepsize/2)
+tsize = stepsize 
 
 # for(k in 1:3)
 for(m in 1:M)

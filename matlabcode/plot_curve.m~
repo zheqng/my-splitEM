@@ -12,7 +12,7 @@ for k=1:kk
 for i=1:train_size_k
     [Ti,I]=sort(T(index_k(i),:));
     Yi=Y(index_k(i),I);
-    plot(Ti,Yi,color{k});ylim([-30,30]);hold on
+    plot(Ti,Yi,color{k});ylim=[-30,30]hold on
 end
 hold off
 end

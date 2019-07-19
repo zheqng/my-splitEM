@@ -25,7 +25,7 @@ component_num=[];
 %______________________start iterations_________________________%
 while final==false
     
-    [ratio,final,Theta_new,PI_new]=split_criterion2(D,Y,Theta,PI,d,b);
+    [ratio,Theta_new,PI_new]=split_criterion2(D,Y,Theta,PI,d,b);
     close all;
     if random('unif',0,1,1)<ratio
         split=true;
@@ -42,12 +42,12 @@ while final==false
 %         BIC_tmp=-2*loglik_new+2*loglik_old+4*kk*log(Curve_num*Nm);
         BIC = [BIC -2*loglik_new+4*kk*log(Curve_num*Nm)]
         component_num = [component_num kk];
-%   
-%         if BIC(end)-BIC(end-1)>0
-%             final=true;
-%         else
-%             final = false;
-%         end
+  
+        if BIC(end)-BIC(end-1)>0
+            final=true;
+        else
+            final = false;
+        end
         %_____________plot figure_______________________________%
         [~,cluster]=max(A_new,[],2);
         figure;
