@@ -13,7 +13,7 @@ source('plot.mix.r')
 
 
 
-K=10
+K=3
 theta = vector("list",K)
 # for(k in 1:100){
 PI  = rep(1/K,1,K);
@@ -25,7 +25,7 @@ for(k in 1:K){
   
 }
 # label = rmultinom(n=1,size=M,prob=PI)
-step = 200
+step = 400
 z=NULL
 for(k in 1:K)z =c(z, rep(k,step))
 

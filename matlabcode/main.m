@@ -61,8 +61,8 @@ parfor ii = 1:curve_num
 rmse(ii) =  sqrt(mean((Y2(ii,:)-YP{ii}(:,1)').^2));
 
 end
-for k=1:10
-    index_k = ((k-1)*100+1) : (k*100);
+for k=1:3
+    index_k = ((k-1)*400+1) : (k*400);
    rmse_k(k)= mean(rmse(index_k));
 end
 
