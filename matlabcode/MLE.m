@@ -1,5 +1,5 @@
 function [negative_loglik,grad]=MLE(theta,D,Y)    
-%��GP��������Ȼ
+
 % Dis=dist(T').^2;
 Y = Y';
 n=size(D,1);
@@ -14,7 +14,8 @@ K=L\Y;
 A=L'\(L\Y);
 % A = C\Y;
 % [L,U] = lu(C);
-negative_loglik=(K'*K)+2*trace(log(abs(L)))+n*log(2*pi);   %-2loglik
+negative_loglik=(K'*K)+log(det(L))*2+n*log(2*pi);   %-2loglik
+% test = -2*log(mvnpdf(Y,zeros(size(Y)),C));
 % negative_loglik = Y'*A + sum(log(abs(diag(L))));
 
 % coef = A*A' - inv(C);
@@ -27,7 +28,8 @@ negative_loglik=(K'*K)+2*trace(log(abs(L)))+n*log(2*pi);   %-2loglik
 grad=zeros(3,1);
 coef=A*A'-L'\(L\eye(n));
 pd1=2*theta(1)*Exp;
-pd2=-theta(2)*a*D.*Exp;
+pd2=-theta(2)*theta(1)^2*D.*Exp;
+% pd3=2*theta(3)*eye;
 grad(1)=trace(coef*pd1);
 grad(2)=trace(coef*pd2);
 grad(3)=trace(coef)*2*theta(3);

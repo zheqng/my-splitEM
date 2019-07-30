@@ -3,11 +3,11 @@ function plot_curve(T,Y,group)
 % figure
 set(gcf,'Position',[400 400 1000 500]);
 if nargin==3
-color={'r','g','b','y','m','c','k','r'};
+color={'r','g','b','y','m','c','k','r','g','b','y','m','c'};
 kk=max(group);
 for k=1:kk
     index_k=find(group==k);
-    subplot(2,4,k)
+    subplot(3,4,k)
     train_size_k=length(index_k);
 for i=1:train_size_k
     [Ti,I]=sort(T(index_k(i),:));

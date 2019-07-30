@@ -13,25 +13,26 @@ source('plot.mix.r')
 
 
 
-K=7
+K=8
 theta = vector("list",K)
 # for(k in 1:100){
 PI  = rep(1/K,1,K);
 for(k in 1:K){
-  theta[[k]]$w=these[k,1]
-  theta[[k]]$v=these[k,2]
-  theta[[k]]$sigma2=these[k,3]
+  theta[[k]]$v=these[k,1]^2
+  theta[[k]]$w=these[k,2]^2
+  theta[[k]]$sigma2=these[k,3]^2
   theta[[k]]$pi = PI[k]
   
 }
 # label = rmultinom(n=1,size=M,prob=PI)
+step = 100
 z=NULL
-for(k in 1:K)z =c(z, rep(k,4))
+for(k in 1:K)z =c(z, rep(k,step))
 
-M = K*4
+M = K*step
 
 dat =vector( "list", M)
-x=seq(from=-4,to=4,length.out = 50)
+x=seq(from=-4,to=4,length.out = 100)
 for(i in 1:M)
   dat[[i]]$x = x;
 dat$M=M
@@ -57,13 +58,14 @@ for(m in 1:M)
 }
 save.image("simudata.RData")
 # load("simudata.RData")
-plot.mixgaussian(dat,step=2,K=K)
-plot.mixgaussian(dat,step=2,K=K,make.pdf=TRUE)
+plot.mixgaussian(dat,step=step,K=K)
+plot.mixgaussian(dat,step=step,K=K,make.pdf=TRUE)
 # write to file
 
 stepsize = length(x)
-tsize = stepsize 
-
+tsize = stepsize/2
+unlink('../demo/traindata.dat')
+unlink('../demo/testdata.dat')
 # for(k in 1:3)
 for(m in 1:M)
 {
