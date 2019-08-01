@@ -3,7 +3,7 @@ clc;
 delete data.mat
 aaa = readtable('../demo/traindata.dat');
 data = table2array(aaa(:,1:50));
-curve_num=1200;
+curve_num=2000;
 T=data((1:curve_num)*2-1,:);
 Y = data((1:curve_num)*2,:);
 
@@ -11,7 +11,7 @@ save data.mat
 clear all;
 clc;
 delete data_test.mat
-curve_num=1200;
+curve_num=2000;
 aaa = readtable('../demo/traindata.dat');
 data = table2array(aaa(:,1:50));
 T1 = data((1:curve_num)*2-1,:);

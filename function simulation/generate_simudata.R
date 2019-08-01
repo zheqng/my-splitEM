@@ -13,7 +13,7 @@ source('plot.mix.r')
 
 
 
-K=3
+K=10
 theta = vector("list",K)
 # for(k in 1:100){
 PI  = rep(1/K,1,K);
@@ -25,7 +25,7 @@ for(k in 1:K){
   
 }
 # label = rmultinom(n=1,size=M,prob=PI)
-step = 400
+step = 200
 z=NULL
 for(k in 1:K)z =c(z, rep(k,step))
 
@@ -89,3 +89,6 @@ save.image("simudata.RData")
 # plot.mixgaussian(dat,step=2,make.pdf=TRUE)
 # 
 # for(i in 1:19) cat(i,'th',these[[i]],'\n')
+
+source('predict.R')
+print.posterior(dat,theta)

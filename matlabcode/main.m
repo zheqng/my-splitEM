@@ -61,14 +61,14 @@ parfor ii = 1:curve_num
 rmse(ii) =  sqrt(mean((Y2(ii,:)-YP{ii}(:,1)').^2));
 
 end
-for k=1:3
-    index_k = ((k-1)*400+1) : (k*400);
+for k=1:10
+    index_k = ((k-1)*200+1) : (k*200);
    rmse_k(k)= mean(rmse(index_k));
 end
 
 rmse_k
 
-RMSE = mean(rmse(1:1000))
+RMSE = mean(rmse)
 % RMSE = sqrt(rmse/curve_num/50)
  predict_show(T2,Y2,YP)
 % cluster_true = [repmat(1,1,108) repmat(2,1,103) repmat(3,1,89)]';

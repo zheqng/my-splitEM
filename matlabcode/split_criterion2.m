@@ -8,7 +8,7 @@ ratio=0.0;
 iter_worker=1;
 ratio_worker=0.0;
 spmd
-    while ratio_worker<1e-5 && iter_worker<200
+    while ratio_worker<1e-4 && iter_worker<200
         k=unidrnd(kk,1);
         u=betarnd(2,2,1,4);
         [ratio_worker,PI_worker,Theta_worker] =calc_Accept_ratio(u,Theta,PI,d,b,loglik_old,D,MY,k,kk);
@@ -25,6 +25,8 @@ for worker = 1:4
         iter = iter_worker{worker};
     end
 end
+iter
+
 if iter>=200
     final = true;
 %     Theta_new = Theta;
