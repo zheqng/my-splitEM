@@ -1,5 +1,5 @@
 function predict_show(T2_test,Y2_test,YV)
-plot_index=[200 800 1000];
+plot_index=[600 700 800];
 figure
 for ii=1:3
     subplot(1,3,ii)

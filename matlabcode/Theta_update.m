@@ -4,7 +4,7 @@ options=optimoptions('fminunc','Algorithm','quasi-newton','Display','off','UsePa
 kk=size(Theta,1);
 [~,cluster]=max(A,[],2);
 
-   parfor k=1:kk;
+   for k=1:kk;
 %                 disp('Minimising the minus loglikelihood...')
 %          [x fxp ip] = minimize_qz(Theta(k,:)','Jmle', 100,PI(k), A(:,k),D, Y);
 %         Theta(k,:) = x';

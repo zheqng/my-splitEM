@@ -1,10 +1,10 @@
-function loglik=LogLik(D,Y,Theta,PI,A,B,phi)
-narginchk(5,7)
+function loglik=LogLik(D,Y,Theta,PI,B,phi)
+narginchk(4,6)
 m=size(Y,1);
 kk=size(Theta,1);
 loglik=0;
-if nargin<7
-    for i=1:m
+if nargin<6
+    parfor i=1:m
         Mle=zeros(1,kk);
         for k=1:kk
             Mle(k)=-.5*MLE(Theta(k,:),D{i},Y(i,:));
@@ -15,7 +15,7 @@ if nargin<7
         loglik=loglik+(log(PI*exp(Mle)')+maxL);
     end
 else
-    for i=1:m
+    parfor i=1:m
         Mle=zeros(1,kk);
         for k=1:kk
             Mle(k)=-.5*MLE(Theta(k,:),D{i},Y(i,:) - (phi{i}*B(:,k))');

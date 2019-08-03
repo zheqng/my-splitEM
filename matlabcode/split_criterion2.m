@@ -1,41 +1,30 @@
-function [ratio,final,Theta_new,PI_new]=split_criterion2(D,MY,Theta,PI,d,b)
+function [ratio,final,Theta_new,PI_new]=split_criterion2(D,MY,Theta,PI,loglik_old,d,b)
 kk=size(Theta,1);
 
-A=posterior_update(D,MY,Theta,PI);
-loglik_old=LogLik(D,MY,Theta,PI,A);
-[~,cluster] = max(A,[],2);
+% A=posterior_update(D,MY,Theta,PI);
+% loglik_old=LogLik(D,MY,Theta,PI,A);
+% [~,cluster] = max(A,[],2);
 ratio=0.0;
-iter_worker=1;
-ratio_worker=0.0;
-spmd
-    while ratio_worker<1e-4 && iter_worker<200
-        k=unidrnd(kk,1);
+iter=1;
+
+for k = 1:kk
+    for iter =1:100
         u=betarnd(2,2,1,4);
-        [ratio_worker,PI_worker,Theta_worker] =calc_Accept_ratio(u,Theta,PI,d,b,loglik_old,D,MY,k,kk);
-        iter_worker=iter_worker+1;
+        u(2) = betarnd(1,1,1,1);
+        [ratio_iter,PI_iter,Theta_iter] =calc_Accept_ratio(u,Theta,PI,d,b,loglik_old,D,MY,k,kk);
+        %_____________________find the maximum ratio_______________________
+        if ratio<ratio_iter
+            PI_new = PI_iter;
+            Theta_new = Theta_iter;
+            ratio = ratio_iter;
+            iter
+        end
+        iter=iter+1;
     end
 end
+ratio
 
 
-for worker = 1:4
-    if ratio<ratio_worker{worker}
-        ratio = ratio_worker{worker};
-        PI_new = PI_worker{worker};
-        Theta_new = Theta_worker{worker};
-        iter = iter_worker{worker};
-    end
-end
-iter
-
-if iter>=200
-    final = true;
-%     Theta_new = Theta;
-%     PI_new = PI;
-else
-    final = false;
-end
-iter
-end
 
 % for k = 1:kk
 % options = optimoptions('fmincon','Display','iter','Algorithm','sqp');
@@ -46,8 +35,8 @@ end
 % ratio_k
 % % ratio = -ratio_k(k);
 % [ratio,PI_new,Theta_new] =calc_Accept_ratio(u_tmp(k,:),Theta,PI,d,b,loglik_old,D,MY,k,kk);
-% if ratio<1e-5
-%     final = true;
-% else
-%     final = false;
-% end
+if ratio<1e-4 
+    final = true;
+else
+    final = false;
+end

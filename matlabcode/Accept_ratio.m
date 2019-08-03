@@ -23,8 +23,8 @@ PI=[ PI,[pi1,pi2]];
 Theta=[ Theta;sqrt([v1,sigma1,w1;v2,sigma2,w2])];
 
 
-A=posterior_update(D,Y,Theta,PI);
-loglik_new=LogLik(D,Y, Theta,PI,A);
+% A=posterior_update(D,Y,Theta,PI);
+loglik_new=LogLik(D,Y, Theta,PI);
 % % % % % % % % % % % % % % % %             fixed moves
 prop_ratio = d(kk+1)/b(kk);
 %    _________________pi_______________________________%

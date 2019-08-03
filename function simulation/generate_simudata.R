@@ -25,7 +25,7 @@ for(k in 1:K){
   
 }
 # label = rmultinom(n=1,size=M,prob=PI)
-step = 200
+step = 10
 z=NULL
 for(k in 1:K)z =c(z, rep(k,step))
 
@@ -91,4 +91,18 @@ save.image("simudata.RData")
 # for(i in 1:19) cat(i,'th',these[[i]],'\n')
 
 source('predict.R')
-print.posterior(dat,theta)
+theta$K = K
+bbb = print.posterior(dat,theta)
+aaa=bbb
+for(m in 1:M){
+  tmp = max(aaa[m,])
+  aaa[m,] = aaa[m,] - tmp
+  aaa[m,]=aaa[m,]- log(sum(exp(aaa[m,])))
+}
+  
+
+aaa = exp(aaa)
+index = apply(aaa,1, which.max)
+plot(index)
+value = apply(aaa,1, max)
+plot(value)

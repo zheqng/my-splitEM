@@ -4,7 +4,7 @@ kk=size(Theta,1);
 m=size(Y,1);
 A=zeros(m,kk);
 
-for i=1:m
+parfor i=1:m
     Mle=zeros(1,kk);
     for k=1:kk
         Mle(k)=-.5*MLE(Theta(k,:),D{i},Y(i,:));
