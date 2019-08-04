@@ -25,7 +25,7 @@ for(k in 1:K){
   
 }
 # label = rmultinom(n=1,size=M,prob=PI)
-step = 10
+step = 100
 z=NULL
 for(k in 1:K)z =c(z, rep(k,step))
 

@@ -61,8 +61,10 @@ parfor ii = 1:curve_num
 rmse(ii) =  sqrt(mean((Y2(ii,:)-YP{ii}(:,1)').^2));
 
 end
+ step = curve_num/length(PI);
+
 for k=1:10
-    index_k = ((k-1)*4+1) : (k*4);
+    index_k = ((k-1)*step+1) : (k*step);
    rmse_k(k)= mean(rmse(index_k));
 end
 
@@ -76,10 +78,9 @@ for ii = 1:curve_num
 end
 STD = STD/curve_num/50
 % RMSE = sqrt(rmse/curve_num/50)
- predict_show(T2,Y2,YP)
- 
+%  predict_show(T2,Y2,YP)
+ figure;plot(cluster,'.');
  %___________cluster error_________________________________________%
- step = curve_num/length(PI);
  for k= 1:10
      index_k = ((k-1)*step+1) : (k*step);
      index_sort(k) = mode(cluster(index_k));
@@ -88,8 +89,12 @@ STD = STD/curve_num/50
  true_cluster = aaa(:);
  error_cluster =sum(true_cluster~=cluster)/curve_num;
  %______________Theta accuracy___________________________________%
- Theta_sort = Theta(index_sort,:);
+ Theta_sort =abs( Theta(index_sort,:));
  aaa = readtable('../function simulation/theta.txt');
  Theta_true = table2array(aaa);
 abs((Theta_true - Theta_sort)./Theta_true)*100
+%__________________save data ________________________________________%
+delete(['result',num2str(step),'.mat'])
+save(['result',num2str(step),'.mat'])
+
 % cluster_true = [repmat(1,1,108) repmat(2,1,103) repmat(3,1,89)]';

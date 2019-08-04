@@ -8,7 +8,7 @@ ratio=0.0;
 iter=1;
 
 for k = 1:kk
-    for iter =1:100
+    for iter =1:50
         u=betarnd(2,2,1,4);
         u(2) = betarnd(1,1,1,1);
         [ratio_iter,PI_iter,Theta_iter] =calc_Accept_ratio(u,Theta,PI,d,b,loglik_old,D,MY,k,kk);

@@ -65,4 +65,5 @@ while final==false
     end
 end
 % end
-plot(BIC)
+plot(BIC);hold on; 
+plot(BIC,'.');hold off

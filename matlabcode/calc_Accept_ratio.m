@@ -49,7 +49,7 @@ add_logratio = add_logratio +0.5*log(0.5) - 1.5*log(w1*w2/w_star)...
 %             [LogLik,LL(end)];
 % [loglik_new loglik_old add_logratio]
 M = size(Y,1);
-ratio = exp(1000/M*(loglik_new-loglik_old) + add_logratio);
+ratio = exp((loglik_new-loglik_old) + add_logratio);
 ratio = ratio*prop_ratio;
 if ratio>1
     ratio=1;
