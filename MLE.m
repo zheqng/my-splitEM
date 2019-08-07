@@ -14,7 +14,7 @@ K=L\Y;
 A=L'\(L\Y);
 % A = C\Y;
 % [L,U] = lu(C);
-negative_loglik=(K'*K)+2*trace(log(abs(L)))+n*log(2*pi);   %-2loglik
+negative_loglik=(K'*K)+(log(det(C)))+n*log(2*pi);   %-2loglik
 % negative_loglik = Y'*A + sum(log(abs(diag(L))));
 
 % coef = A*A' - inv(C);
