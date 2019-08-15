@@ -1,4 +1,4 @@
-function YP=mix_GPFRP_qz(Theta,PI,T1,Y1,T2,bsbasis,B)
+function YP=mix_GPFRP_qz(Theta,PI,T1,Y1,T2,knots,B)
 %initialize
 curve_number=size(T1,1);
 kk=length(PI);
@@ -9,12 +9,15 @@ YP=cell(1,curve_number);
 
 
 for ii=1:curve_number
-    for jj = 1:size(T1,2)
-        phimat{ii}(jj,:) = bbase(T1(ii,jj),bsbasis,2);
+    %     for jj = 1:size(T1,2)
+    %         phimat{ii}(jj,:) = bbase(T1(ii,jj),bsbasis,2);
+    %     end
+    for jj = 0:(numel(knots)-4-1)
+        phimat{ii}(:,jj+1) = bspline_basis(jj,4,knots,T1(ii,:));
     end
     % compute posterior
     Mle=zeros(1,kk);
-    for k=1:kk
+    parfor k=1:kk
         mu= phimat{ii}*B(:,k);
         Mle(k)=-.5*MLE(Theta(k,:),dist(T1(ii,:)).^2,Y1(ii,:)-mu');
     end
@@ -35,8 +38,11 @@ for ii=1:curve_number
         %         Theta(k,1)^2*exp(-Theta(k,2)^2/2*dist(T1(ii,:)',T2(ii,:)).^2);
         Y(:,k)=K_star'*K_inv_Y;
         % compute expectation
-        for jj = 1:size(T2,2)
-            phimat2(jj,:) = bbase(T2(ii,jj),bsbasis,2);
+        %         for jj = 1:size(T2,2)
+        %             phimat2(jj,:) = bbase(T2(ii,jj),bsbasis,2);
+        %         end
+        parfor jj = 0:(numel(knots)-4-1)
+            phimat2(:,jj+1) = bspline_basis(jj,4,knots,T2(ii,:));
         end
         % phimat = getbasismatrix(T2{i},bsbasis);
         mu= phimat2*B(:,k);
@@ -51,7 +57,7 @@ for ii=1:curve_number
     YP{ii}(:,1) = YP{ii}(:,1) + Y*A';%mean
     %  YP{i}(:,2)=YP{i}(:,2)-YP{i}(:,1).^2;
 end
-        
-   
 
-    
+
+
+

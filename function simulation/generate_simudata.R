@@ -13,7 +13,7 @@ source('plot.mix.r')
 
 
 
-K=3
+K=10
 theta = vector("list",K)
 # for(k in 1:100){
 PI  = rep(1/K,1,K);
