@@ -1,4 +1,4 @@
-function [Theta,PI,A]=EM(D,Y,Theta,PI,hardcut_flag)
+function [Theta,PI,A]=EM(D,Y,Theta,PI,A)
 
 
 % if nargin<8
@@ -11,20 +11,19 @@ eps=1e-6;
 max_iter=25;
 
 
-A=posterior_update(D,Y,Theta,PI);
+% A=posterior_update(D,Y,Theta,PI);
 % umat = ones(m,1);
 % E-step first
 while  iter==0 ||( iter<max_iter&&M11>10^(-3)  )
     iter=iter+1;
-    A2 = A;
-    % update PI,Theta and B
+    A_old = A;
+    % update PI,Theta
     PI=sum(A,1)/m;
     %maximum step
     Theta=Theta_update(D,Y,Theta,PI,A);
     %expectation step
     A=posterior_update(D,Y,Theta,PI);
-    M11=mean(mean(abs(A2-A)));
+    M11=mean(mean(abs(A_old-A)));
 end
 
 end
-

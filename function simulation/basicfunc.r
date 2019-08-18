@@ -15,3 +15,4 @@ mix.posterio <- function(dat, theta, m,k) {
   result
   
 }
+
