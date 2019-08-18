@@ -16,7 +16,7 @@ umat = ones(m,1);
 % E-step first
 while  iter==0 ||( iter<max_iter&&M11>10^(-3)  )
     iter=iter+1;
-    A2 = A;
+    A_old = A;
     % update PI,Theta and B
     PI=sum(A,1)/m;
     if ~isempty(phi)
@@ -31,7 +31,7 @@ while  iter==0 ||( iter<max_iter&&M11>10^(-3)  )
         %expectation step
         A=posterior_update(D,Y,Theta,PI);
     end
-    M11=mean(mean(abs(A2-A)));
+    M11=mean(mean(abs(A_old-A)));
 end
 
 end

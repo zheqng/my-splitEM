@@ -79,7 +79,7 @@ end
 t2 = clock;
 time = etime(t2,t1)
 %__________________save data ________________________________________%
-delete(['iter50_result',num2str(step),'.mat'])
+delete *.mat
 save(['iter50_result',num2str(step),'.mat'])
 
 average_theta_accuracy = zeros(10,3);

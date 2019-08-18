@@ -32,7 +32,7 @@ b=flip(d);
 split_threshold=1;
 loglik=LogLik(D,Y,Theta,PI,B,phi);
 % BIC=-2*loglik+4*kk*log(Curve_num*Nm);
-BIC=-2*loglik++(4+numel(knots)-4)*kk*log(Nm);
+BIC=-2*loglik+(4+numel(knots)-4)*kk*log(Nm);
 %  BIC=-2*loglik;
 
 component_num=[];
@@ -42,19 +42,12 @@ while final==false
     [~,cluster]=max(A,[],2);
 %     figure;plot(cluster,'.')
     pause(1)
-    %         figure;
-    %         plot_curve(T,Y,cluster);
-    %          title(['components number=',num2str(kk)])
-    %     zmat = zeros(Curve_num,kk);
-    %     for ii=1:Curve_num
-    %         zmat(ii,cluster(ii))=1;
-    %     end
     parfor ii = 1:Curve_num
         MY(ii,:)=Y(ii,:) - ( phi{ii}*B(:,cluster(ii)))';
     end
     %_______________-split the mean func curves______________________%
     [ratio,final,Theta_new,PI_new]=split_criterion2(D,MY,Theta,PI,loglik,d,b);
-    
+
     %     close all;
     if random('unif',0,1,1)<ratio
         %         split=true;
@@ -69,12 +62,12 @@ while final==false
 %                 BIC = [BIC -2*loglik_new+4*kk*log(Curve_num*Nm)];
         BIC = [BIC -2*loglik_new+(4+numel(knots)-4)*kk*log(Nm)];
        BIC_tmp= [2*loglik_new+2*loglik (4+numel(knots)-4)*log(Nm)]
-        
+
         %          BIC = [BIC -2*loglik_new]
         %___________judge final via BIC_________________________%
         if BIC(end)>BIC(end-1)
              split = false;
-           
+
         else
             split = true;
             component_num = [component_num kk];
@@ -86,23 +79,6 @@ while final==false
             A = A_new;
 %             compare_meanfunction(T,phi,B);
         end
-        %         %____________if not final, split; if final break_________________%
-        %         if final == false
-        %             component_num = [component_num kk];
-        %             %             %_____________plot figure_______________________________%
-        % %              A_new=posterior_update(D,MY,Theta_new,PI_new);
-        % %             [~,cluster]=max(A_new,[],2);
-        %             %             figure;
-        %             %             plot_curve(T,Y,cluster);
-        %             %             pause(1)
-        %             %______________update parameters________________________%
-        %             Theta=Theta_new;
-        %             PI=PI_new;
-        %             B = B_new;
-        %             loglik = loglik_new;
-        %             A = A_new;
-        %              compare_meanfunction(T,phi,B);
-        %         end
     end
 end
 % end
