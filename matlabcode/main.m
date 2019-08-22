@@ -24,9 +24,11 @@ relative_theta_accuracy = cell(1,iter_num);
 Theta_iter=cell(1,iter_num);
 K=10;
 A_iter = cell(1,iter_num);
-for ii=1:iter_num
+for ii=41:iter_num
     ii
-    [BIC,Theta,PI,A,B,component_num]=SMGPFRL1(T,Y,knots);
+    [Theta,PI,A,B,component_num]=fixedmove(T,Y,knots);
+
+%     [BIC,Theta,PI,A,B,component_num]=SMGPFRL1(T,Y,knots);
     % [Theta,PI,A,B,~,Jsp]=SMGPFRL1(T,Y,bsbasis);
     component_iter(ii) = component_num(end);
     Theta_iter{ii}=Theta;
@@ -88,5 +90,5 @@ for ii = 1:50
     average_theta_accuracy = average_theta_accuracy +   relative_theta_accuracy{ii};
     end
 end
-average_theta_accuracy = average_theta_accuracy/48;
+average_theta_accuracy = average_theta_accuracy/50;
 % cluster_true = [repmat(1,1,108) repmat(2,1,103) repmat(3,1,89)]';
