@@ -16,9 +16,10 @@ Theta_iter=cell(1,iter_num);
 K=10;
 A_iter = cell(1,iter_num);
 
-for ii=1:iter_num
+for ii=37:iter_num
     ii
- [BIC,Theta,PI,A,component_num]=SMGPFRL1(T,Y);
+%  [BIC,Theta,PI,A,component_num]=SMGPFRL1(T,Y);
+[Theta,PI,A,component_num]=fixedmove(T,Y);
 component_iter(ii) = component_num(end);
 Theta_iter{ii}=Theta;
 A_iter{ii}=A;
@@ -69,4 +70,4 @@ for ii = 1:50
     average_theta_accuracy = average_theta_accuracy +   relative_theta_accuracy{ii};
     end
 end
-average_theta_accuracy = average_theta_accuracy/49;
+average_theta_accuracy = average_theta_accuracy/50;
