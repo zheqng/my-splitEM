@@ -50,9 +50,9 @@ mean.function<-function(x,k){
   mu
 }
 
-plot(x,mean.function(x,1),'l',ylim=c(-5,10))
-
-for(k in 2:9){
-  lines(x,mean.function(x,k))
-}
-points(x,mean.function(x,10))
+# plot(x,mean.function(x,1),'l',ylim=c(-5,10))
+# 
+# for(k in 2:9){
+#   lines(x,mean.function(x,k))
+# }
+# points(x,mean.function(x,10))
