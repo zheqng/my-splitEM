@@ -42,7 +42,7 @@ while final==false
         kk=length(PI_new)
         loglik_new=LogLik(D,Y,Theta_new,PI_new);
         BIC = [BIC -2*loglik_new+4*kk*log(Nm)];
-        BIC_tmp= [2*loglik_new+2*loglik 4*log(Nm)]
+%         BIC_tmp= [2*loglik_new+2*loglik 4*log(Nm)]
         %                 BIC = [BIC -2*loglik_new+4*kk]
         %  BIC = [BIC -2*loglik_new]
         %___________judge final via BIC_________________________%

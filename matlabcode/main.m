@@ -7,7 +7,7 @@ load('data.mat');
 t1 = clock;
 m=size(T,1);
 Nm = size(T,2);Curve_num = m;
-step = 100;
+step = 400;
 iter_num=50;
 % [Theta,PI]=fixedmove(T,Y);
 component_iter=[];
@@ -15,11 +15,11 @@ relative_theta_accuracy = cell(1,iter_num);
 Theta_iter=cell(1,iter_num);
 K=10;
 A_iter = cell(1,iter_num);
-
-for ii=37:iter_num
+RMSE_K = cell(1,iter_num);
+for ii=1:iter_num
     ii
-%  [BIC,Theta,PI,A,component_num]=SMGPFRL1(T,Y);
-[Theta,PI,A,component_num]=fixedmove(T,Y);
+ [BIC,Theta,PI,A,component_num]=SMGPFRL1(T,Y);
+% [Theta,PI,A,component_num]=fixedmove(T,Y);
 component_iter(ii) = component_num(end);
 Theta_iter{ii}=Theta;
 A_iter{ii}=A;
@@ -39,6 +39,13 @@ parfor m = 1:curve_num
 
 end
 
+for k=1:10
+    index_k = ((k-1)*step+1) : (k*step);
+   rmse_k(k)= mean(rmse(index_k));
+end
+
+RMSE_K{ii} = rmse_k;
+% rmse_k
 
 RMSE(ii) = mean(rmse);
 %___________cluster error_________________________________________%
@@ -50,6 +57,9 @@ if(component_num(end)==K)
     aaa=repmat(index_sort,step,1);
     true_cluster = aaa(:);
     error_cluster(ii) =sum(true_cluster~=cluster)/curve_num;
+%     %__________________________rmse________________________________%
+%     rmse_k = rmse_k(index_sort);
+%     RMSE_K{ii} = rmse_k;
     %______________Theta accuracy___________________________________%
     Theta_sort =abs( Theta(index_sort,:));
     aaa = readtable('../function simulation/theta.txt');

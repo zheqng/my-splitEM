@@ -25,7 +25,7 @@ for(k in 1:K){
   
 }
 # label = rmultinom(n=1,size=M,prob=PI)
-step = 100
+step = 200
 z=NULL
 for(k in 1:K)z =c(z, rep(k,step))
 
@@ -56,9 +56,10 @@ for(m in 1:M)
   dat[[m]]$x = (dat[[m]]$x)
   # /8*0.01
 }
-save.image("simudata.RData")
+# save.image("simudata.RData")
 # load("simudata.RData")
 plot.mixgaussian(dat,step=step,K=K)
+
 plot.mixgaussian(dat,step=step,K=K,make.pdf=TRUE)
 # write to file
 
@@ -83,13 +84,37 @@ for(m in 1:M)
   sink()
 }
 # sink()
+##########################################################################
+M.test = 600
+dat.test =vector( "list", M.test)
+for(i in 1:M.test)
+  dat.test[[i]]$x = x;
+dat.test$M=M
+for(m in 1:M.test)
+{
+  k=z[m]
+  dat.test[[m]]$y = mvrnorm(n=1,mu=rep(0,length(x)),
+                       Sigma = cov(x,theta[[k]]))
+  dat.test[[m]]$k=k;
+  dat.test[[m]]$x = (dat.test[[m]]$x)
+  # /8*0.01
+}
+unlink('../demo/validedata.dat')
+# for(k in 1:3)
+sink('../demo/validedata.dat',append = TRUE)
+for(m in 1:M.test)
+{
+  cat(dat.test[[m]]$x,"\n")
+  cat(round(dat.test[[m]]$y,digits=4),"\n")
+}
+sink()
 save.image("simudata.RData")
 # load("simudata.RData")
 # plot.mixgaussian(dat,step=2)
 # plot.mixgaussian(dat,step=2,make.pdf=TRUE)
 # 
 # for(i in 1:19) cat(i,'th',these[[i]],'\n')
-
+#####################################################################3
 source('predict.R')
 theta$K = K
 bbb = print.posterior(dat,theta)

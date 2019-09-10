@@ -29,7 +29,7 @@ for k = 1:kk
     end
 end
 
-k_split
+% k_split
 % ratio
 % [loglik_new loglik_old add_logratio]
 

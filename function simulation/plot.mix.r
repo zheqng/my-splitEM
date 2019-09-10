@@ -27,7 +27,7 @@ plot.mixgaussian<-function(dat,step,K,make.pdf = FALSE){
   }
   # plot data
   mix.colors =rainbow(K)
-  op<-par(mfrow=c(3,4))
+  op<-par(mfrow=c(4,3))
   # plot(dat[[1]]$x,dat[[1]]$y,col=mix.colors[[dat[[1]]$k]],
   #      type="l",ylim=y.range(dat),xlab = "",ylab="")
   # title(paste(dat[[m]]$k))
