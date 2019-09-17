@@ -7,7 +7,7 @@ load('data.mat');
 t1 = clock;
 m=size(T,1);
 Nm = size(T,2);Curve_num = m;
-step = 400;
+step = 100;
 iter_num=50;
 % [Theta,PI]=fixedmove(T,Y);
 component_iter=[];
@@ -16,7 +16,7 @@ Theta_iter=cell(1,iter_num);
 K=10;
 A_iter = cell(1,iter_num);
 RMSE_K = cell(1,iter_num);
-for ii=1:iter_num
+for ii=2:iter_num
     ii
  [BIC,Theta,PI,A,component_num]=SMGPFRL1(T,Y);
 % [Theta,PI,A,component_num]=fixedmove(T,Y);
@@ -71,13 +71,56 @@ end
 t2 = clock;
 time = etime(t2,t1)
 %__________________save data ________________________________________%
-delete *.mat
+delete(['iter50_result',num2str(step),'.mat'])
 save(['iter50_result',num2str(step),'.mat'])
 
 average_theta_accuracy = zeros(10,3);
-for ii = 1:50
+for ii = 1:iter_num
     if(component_iter(ii) == 10)
     average_theta_accuracy = average_theta_accuracy +   relative_theta_accuracy{ii};
     end
 end
-average_theta_accuracy = average_theta_accuracy/50;
+average_theta_accuracy = average_theta_accuracy/sum(component_iter==K);
+
+
+%________________________valide data_________________________________%
+Theta_sort = zeros(K,3);
+for ii=1:iter_num
+    %__________________calc clustering________________________________________%
+ 
+
+    [~,cluster]=max(A_iter{ii},[],2);
+    %___________cluster error_________________________________________%
+    if(component_iter(ii)==K)
+        for k= 1:K
+            index_k = ((k-1)*step+1) : (k*step);
+            index_sort(k) = mode(cluster(index_k));
+        end
+        %______________Theta accuracy___________________________________%
+        Theta_sort = Theta_sort + Theta_iter{ii}(index_sort,:);
+    end
+end
+Theta_sort = Theta_sort/sum(component_iter==K);
+% B_sort = B_sort/iter_num;
+M_test=600;
+load('data_valide.mat');
+for ii = 1:M_test
+    D_valide{ii}=dist(T_valide(ii,:)).^2;
+end
+A=zeros(M_test,K);
+
+% for m = 1:M_test
+A=posterior_update(D_valide,Y_valide,Theta_sort,repmat(0.1,1,10));
+%     for k = 1:K
+%         Mle(k) = -0.5*MLE(Theta_sort(k,:),dist(T_valide(m,:)).^2,Y_valide(m,:));
+%     end
+%     [~,index]=max(Mle);
+   [~, cluster_valide]=max(A,[],2);
+
+figure;plot(1:600,cluster_valide,'.')
+set(gca,'xtick',1:60:600);
+set(gca,'XTicklabel',{'0','60','120','180','240','300','360','420','480','540','600'})
+order = [10 8 1 9 7 6 5 2 4 3];
+cluster_valide_true = repmat(order,60,1);
+cluster_valide_true = cluster_valide_true(:)';
+sum(cluster_valide~=cluster_valide_true)/M_test*100

@@ -30,10 +30,10 @@ for k = 1:kk
 end
 
 % k_split
-% ratio
+ratio
 % [loglik_new loglik_old add_logratio]
 
-if ratio<1e-5
+if ratio<1e-3
     final = true;
     Theta_new = Theta;
     PI_new = PI;
