@@ -1,4 +1,4 @@
-function YP=mix_GPFRP_qz(Theta,PI,T1,Y1,T2,knots,B)
+function YP=mix_GPFRP_qz(Theta,PI,T1,Y1,T2,Y2,knots,B)
 %initialize
 curve_number=size(T1,1);
 kk=length(PI);
@@ -55,6 +55,7 @@ for ii=1:curve_number
         YP{ii}(:,2)=YP{ii}(:,2)+(k_star - diag(v'*v))*A(k);%variance
     end
     YP{ii}(:,1) = YP{ii}(:,1) + Y*A';%mean
+    mse(ii)=sqrt(mean((Y2(ii,:)-YP{ii}(:,1)').^2));
     %  YP{i}(:,2)=YP{i}(:,2)-YP{i}(:,1).^2;
 end
 

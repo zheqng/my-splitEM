@@ -24,11 +24,11 @@ relative_theta_accuracy = cell(1,iter_num);
 Theta_iter=cell(1,iter_num);
 K=10;
 A_iter = cell(1,iter_num);
-for ii=1:iter_num
+for ii=1:50
     ii
-%     [Theta,PI,A,B,component_num]=fixedmove(T,Y,knots);
+    [Theta,PI,A,B,component_num]=fixedmove(T,Y,knots);
 
-    [BIC,Theta,PI,A,B,component_num]=SMGPFRL1(T,Y,knots);
+%     [BIC,Theta,PI,A,B,component_num]=SMGPFRL1(T,Y,knots);
     % [Theta,PI,A,B,~,Jsp]=SMGPFRL1(T,Y,bsbasis);
     component_iter(ii) = component_num(end);
     Theta_iter{ii}=Theta;
@@ -44,7 +44,7 @@ for ii=1:iter_num
     %_____________________prediction___________________________________________%
     load('data_test.mat');
     
-    YP=mix_GPFRP_qz(Theta,PI,T1,Y1,T2,knots,B);
+    YP=mix_GPFRP_qz(Theta,PI,T1,Y1,T2,Y2,knots,B);
     
     rmse = zeros(curve_num,1);
     parfor m = 1:curve_num
@@ -52,9 +52,9 @@ for ii=1:iter_num
         
     end
     
-    
-    RMSE(ii) = mean(rmse);
-    
+    rmse_iter{ii}=rmse;
+    RMSE(ii) = mean(rmse)
+    component_iter
     % STD=0;
     % for ii = 1:curve_num
     %     STD = STD + sum(sqrt(YP{ii}(:,2)));
@@ -82,21 +82,17 @@ end
 t2 = clock;
 time = etime(t2,t1)
 %__________________save data ________________________________________%
-delete *.mat
-save(['iter50_result',num2str(step),'.mat'])
-
+% delete *.mat
+save(['algorithm_new2_iter50_result',num2str(step),'.mat'])
+figure; plot(component_iter,'.')
 average_theta_accuracy = zeros(10,3);
 for ii = 1:50
     if(component_iter(ii) == 10)
     average_theta_accuracy = average_theta_accuracy +   relative_theta_accuracy{ii};
     end
 end
-average_theta_accuracy = average_theta_accuracy/50;
-% cluster_true = [repmat(1,1,108) repmat(2,1,103) repmat(3,1,89)]';
-
-%________________________valide data_________________________________%
-Theta_sort = zeros(K,3);
-B_sort = zeros(34,K);
+average_theta_accuracy = average_theta_accuracy/sum(component_iter==K)
+B_sort = repmat(0,34,K);
 for ii=1:iter_num
     %__________________calc clustering________________________________________%
     
@@ -112,8 +108,8 @@ for ii=1:iter_num
         B_sort = B_sort + B_iter{ii}(:,index_sort);
     end
 end
-Theta_sort = Theta_sort/iter_num;
-B_sort = B_sort/iter_num;
+Theta_sort = Theta_sort/sum(component_iter==K);
+B_sort = B_sort/sum(component_iter==K);
 M_test=600;
 load('data_valide.mat');
 for m = 1:M_test
